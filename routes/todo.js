@@ -10,11 +10,12 @@ let todos = [
     },
 ];
 
-//Endpoint untuk mendapatkan data todos
+// CRUD RESTAPI
 router.get('/', (req, res) => {
     res.json(todos);
 });
 
+// POST a new todo
 router.post('/', (req, res) => {
     const newTodo = {
         id: todos.length + 1,
@@ -24,46 +25,25 @@ router.post('/', (req, res) => {
     todos.push(newTodo);
     res.status(201).json(newTodo);
 });
-
-// PUT: Update a todo by ID
-router.put('/:id', (req, res) => {
-    const todoId = parseInt(req.params.id);
-    const { task, completed } = req.body;
-
-    // Find the todo by id
-    const todoIndex = todos.findIndex(todo => todo.id === todoId);
-
-    if (todoIndex !== -1) {
-        // Update the todo with new data
-        todos[todoIndex] = {
-            ...todos[todoIndex],
-            task: task !== undefined ? task : todos[todoIndex].task,
-            completed: completed !== undefined ? completed : todos[todoIndex].completed
-        };
-        res.json(todos[todoIndex]);
-    } else {
-        res.status(404).json({ message: 'Todo not found' });
-    }
-});
-
-// DELETE: Remove a todo by ID
+// DELETE a todo by ID
 router.delete('/:id', (req, res) => {
-    const todoId = parseInt(req.params.id);
-
-    // Find the todo by id
-    const todoIndex = todos.findIndex(todo => todo.id === todoId);
-
-    if (todoIndex !== -1) {
-        // Remove the todo from the array
-        const deletedTodo = todos.splice(todoIndex, 1);
-        res.json(deletedTodo[0]);
-    } else {
-        res.status(404).json({ message: 'Todo not found' });
+    const todoIndex = todos.findIndex(t => t.id === parseInt(req.params.id));
+    if (todoIndex === -1) {
+        return res.status(404).json({ message: 'Tugas tidak ditemukan' });
     }
-}); 
-
-
-
-
-
+    const deletedTodo = todos.splice(todoIndex, 1)[0]; // Corrected the splice method
+    res.status(200).json({ message: `Tugas '${deletedTodo.task}' telah dihapus` });
+});
+// PUT (update) a todo by ID
+router.put('/:id', (req, res) => {
+    const todo = todos.find(t => t.id === parseInt(req.params.id));
+    if (!todo) {
+        return res.status(404).json({ message: 'Tugas tidak ditemukan' });
+    }
+    todo.task = req.body.task || todo.task; // Update the task if provided
+    res.status(200).json({
+        message: `Tugas dengan ID ${todo.id} telah diperbarui`,
+        updatedTodo: todo
+    });
+});
 module.exports = router;
