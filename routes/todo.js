@@ -4,6 +4,7 @@ const router = express.Router();
 let todos = [
     { id: 1, task: "Belajar Node.Js", completed: false },
     { id: 2, task: "Membuat API", completed: false },
+    { id: 3, task: "Membuat API2", completed: false },
 ];
 
 // GET all todos

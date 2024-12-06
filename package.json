@@ -1,4 +1,14 @@
 {
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.1",
+    "mysql2": "^3.11.3"
+  },
   "name": "praktikum-paw",
   "version": "1.0.0",
   "main": "app.js",
@@ -9,9 +19,5 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "ejs": "^3.1.10",
-    "express": "^4.21.1"
-  }
+  "description": ""
 }
